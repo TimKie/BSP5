@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import UIKit
 import GoogleSignIn
+import GoogleAPIClientForREST
 
 
 struct GoogleDriveView: View {
+    @State var folderName: String = ""
+    
     // Declare an environment object
     @EnvironmentObject var viewModel: AuthenticationViewModel
 
@@ -44,6 +48,19 @@ struct GoogleDriveView: View {
                 .padding()
 
                 Spacer()
+                
+                // Create Folder
+                Section {
+                    Form {
+                        TextField("Folder Name", text: $folderName)
+                        Button("Create Folder") {
+                            viewModel.populateFolderID(folder_name: folderName)
+                        }
+                    }
+                }
+
+                Spacer()
+            
 
             }
             .navigationTitle("Google Drive")

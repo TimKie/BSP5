@@ -9,5 +9,6 @@ target 'BSP5' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'GoogleSignIn', '~> 5.0.0'
+  pod 'GoogleAPIClientForREST/Drive', '~> 1.3.7'
 
 end
