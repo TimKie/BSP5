@@ -82,7 +82,6 @@ struct GoogleDriveView: View {
                 guard let l = file_list else {
                     return
                 }
-                print("-------------------- Test", l.files!)
                 files = l.files!
             }
         }

@@ -16,19 +16,26 @@ struct GoogleDriveFolderView: View {
     
     @State var file_data: [GTLRDrive_File] = []
     @State var folder_id : String = ""
+    @State var isLoaded: Bool = false
     
     var body: some View {
-        
-        List(file_data, id: \.self) {file in
-            if file.mimeType == "application/vnd.google-apps.folder" {
-                NavigationLink(destination: GoogleDriveFolderView(file_data: file_data, folder_id: file.identifier!)) {
-                    Text(file.name!)
+        ZStack {
+            if isLoaded {
+                List(file_data, id: \.self) {file in
+                    if file.mimeType == "application/vnd.google-apps.folder" {
+                        NavigationLink(destination: GoogleDriveFolderView(file_data: file_data, folder_id: file.identifier!)) {
+                            Text(file.name!)
+                        }
+                    }
+                    else {
+                        Text(file.name!)
+                    }
+                    
                 }
             }
             else {
-                Text(file.name!)
+                ProgressView("Retrieving Files")
             }
-            
         }
         // List the files of the folder which was selected
         .onAppear {
@@ -39,6 +46,7 @@ struct GoogleDriveFolderView: View {
                 print("------- File List:", l.files!)
             
                 file_data = l.files!
+                isLoaded = true
             }
         }
     }
