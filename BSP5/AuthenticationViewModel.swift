@@ -188,7 +188,7 @@ extension AuthenticationViewModel {
             // Successful upload if no error is returned.
         }
     }
-            
+    
     
     // Create Folder Example
     func populateFolderID(folder_name: String) {
@@ -208,4 +208,45 @@ extension AuthenticationViewModel {
             }
         }
     }
+    
+    
+    
+    // Testing Lisiting Folder and Files
+    public func search(_ fileName: String, onCompleted: @escaping (String?, Error?) -> ()) {
+        let query = GTLRDriveQuery_FilesList.query()
+        query.pageSize = 1
+        query.q = "name contains '\(fileName)'"
+            
+        googleDriveService.executeQuery(query) { (ticket, results, error) in
+            onCompleted((results as? GTLRDrive_FileList)?.files?.first?.identifier, error)
+        }
+    }
+        
+    public func listFiles(_ folderID: String, onCompleted: @escaping (GTLRDrive_FileList?, Error?) -> ()) {
+        let query = GTLRDriveQuery_FilesList.query()
+        query.pageSize = 100
+        query.q = "'\(folderID)' in parents"
+            
+        googleDriveService.executeQuery(query) { (ticket, result, error) in
+            onCompleted(result as? GTLRDrive_FileList, error)
+        }
+    }
+    
+    public func listFilesInFolder(_ folder: String, onCompleted: @escaping (GTLRDrive_FileList?, Error?) -> ()) {
+        search(folder) { (folderID, error) in
+            guard let ID = folderID else {
+                onCompleted(nil, error)
+                return
+            }
+            self.listFiles(ID, onCompleted: onCompleted)
+        }
+    }
+    
+    public func download(_ fileID: String, onCompleted: @escaping (Data?, Error?) -> ()) {
+        let query = GTLRDriveQuery_FilesGet.queryForMedia(withFileId: fileID)
+        googleDriveService.executeQuery(query) { (ticket, file, error) in
+            onCompleted((file as? GTLRDataObject)?.data, error)
+        }
+    }
+    
 }

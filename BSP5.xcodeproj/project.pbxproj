@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2212866F273572BA00CD7290 /* GoogleDriveFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2212866E273572BA00CD7290 /* GoogleDriveFolderView.swift */; };
 		225E45F5271434B700BD1E88 /* BSP5App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225E45F4271434B700BD1E88 /* BSP5App.swift */; };
 		225E45F7271434B700BD1E88 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225E45F6271434B700BD1E88 /* ContentView.swift */; };
 		225E45F9271434B800BD1E88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225E45F8271434B800BD1E88 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		0A0C922BA28A060D80BAF3C1 /* Pods-BSP5.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BSP5.debug.xcconfig"; path = "Target Support Files/Pods-BSP5/Pods-BSP5.debug.xcconfig"; sourceTree = "<group>"; };
+		2212866E273572BA00CD7290 /* GoogleDriveFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveFolderView.swift; sourceTree = "<group>"; };
 		225E45F1271434B700BD1E88 /* BSP5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BSP5.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		225E45F4271434B700BD1E88 /* BSP5App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSP5App.swift; sourceTree = "<group>"; };
 		225E45F6271434B700BD1E88 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -79,10 +81,11 @@
 				225E45F6271434B700BD1E88 /* ContentView.swift */,
 				22F31DDB271D982700B82A6D /* Settings.swift */,
 				22F31DD3271D6BBD00B82A6D /* Sidebar.swift */,
-				22F31DD7271D6E9300B82A6D /* GoogleDriveView.swift */,
-				22F31DD9271D6E9F00B82A6D /* DropboxView.swift */,
 				22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */,
+				22F31DD9271D6E9F00B82A6D /* DropboxView.swift */,
 				22CA39272722B7A900E74FF3 /* AuthenticationViewModel.swift */,
+				22F31DD7271D6E9300B82A6D /* GoogleDriveView.swift */,
+				2212866E273572BA00CD7290 /* GoogleDriveFolderView.swift */,
 				225E45F8271434B800BD1E88 /* Assets.xcassets */,
 				225E45FA271434B800BD1E88 /* Preview Content */,
 			);
@@ -254,6 +257,7 @@
 				22CA39282722B7A900E74FF3 /* AuthenticationViewModel.swift in Sources */,
 				22F31DDC271D982700B82A6D /* Settings.swift in Sources */,
 				225E45F5271434B700BD1E88 /* BSP5App.swift in Sources */,
+				2212866F273572BA00CD7290 /* GoogleDriveFolderView.swift in Sources */,
 				22F31DDA271D6E9F00B82A6D /* DropboxView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

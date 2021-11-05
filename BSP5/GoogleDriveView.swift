@@ -14,6 +14,8 @@ import GoogleAPIClientForREST
 struct GoogleDriveView: View {
     @State var folderName: String = ""
     
+    @State var files: [GTLRDrive_File] = []
+    
     // Declare an environment object
     @EnvironmentObject var viewModel: AuthenticationViewModel
 
@@ -50,22 +52,40 @@ struct GoogleDriveView: View {
                 Spacer()
                 
                 // Create Folder
-                Section {
-                    Form {
-                        TextField("Folder Name", text: $folderName)
-                        Button("Create Folder") {
-                            viewModel.populateFolderID(folder_name: folderName)
-                        }
+                /*
+                Form {
+                    TextField("Folder Name", text: $folderName)
+                    Button("Create Folder") {
+                        viewModel.populateFolderID(folder_name: folderName)
                     }
                 }
-
-                Spacer()
-            
-
+                */
+                
+                
+                // navigation with list (only clockable if data is a folder, i.e. mimeType is folder type)
+                List(files, id: \.self) {file in
+                    if file.mimeType == "application/vnd.google-apps.folder" {
+                        NavigationLink(destination: GoogleDriveFolderView(file_data: files, folder_id: file.identifier!)) {
+                            Text(file.name!)
+                        }
+                    }
+                    else {
+                        Text(file.name!)
+                    }
+                }
             }
             .navigationTitle("Google Drive")
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear {
+            viewModel.listFilesInFolder("BSP5 TEST Folder") {(file_list, error) in
+                guard let l = file_list else {
+                    return
+                }
+                print("-------------------- Test", l.files!)
+                files = l.files!
+            }
+        }
     }
 }
 
