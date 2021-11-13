@@ -100,118 +100,8 @@ extension AuthenticationViewModel: GIDSignInDelegate {
 
 // -------------------------------------------- Google Drive functions --------------------------------------------
 extension AuthenticationViewModel {
-    
-    // Case-insensitive search for a specified folder by name
-    func getFolderID(
-        name: String,
-        service: GTLRDriveService,
-        user: GIDGoogleUser,
-        completion: @escaping (String?) -> Void) {
-        
-        let query = GTLRDriveQuery_FilesList.query()
 
-        // Comma-separated list of areas the search applies to. E.g., appDataFolder, photos, drive.
-        query.spaces = "drive"
-        
-        // Comma-separated list of access levels to search in. Some possible values are "user,allTeamDrives" or "user"
-        query.corpora = "user"
-            
-        let withName = "name = '\(name)'" // Case insensitive!
-        let foldersOnly = "mimeType = 'application/vnd.google-apps.folder'"
-        let ownedByUser = "'\(user.profile!.email!)' in owners"
-        query.q = "\(withName) and \(foldersOnly) and \(ownedByUser)"
-        
-        service.executeQuery(query) { (_, result, error) in
-            guard error == nil else {
-                fatalError(error!.localizedDescription)
-            }
-                                     
-            let folderList = result as! GTLRDrive_FileList
-
-            // For brevity, assumes only one folder is returned.
-            completion(folderList.files?.first?.identifier)
-        }
-    }
-    
-    
-    
-    // Create a folder
-    func createFolder(
-        name: String,
-        service: GTLRDriveService,
-        completion: @escaping (String) -> Void) {
-        
-        let folder = GTLRDrive_File()
-        folder.mimeType = "application/vnd.google-apps.folder"
-        folder.name = name
-        
-        // Google Drive folders are files with a special MIME-type.
-        let query = GTLRDriveQuery_FilesCreate.query(withObject: folder, uploadParameters: nil)
-        
-        service.executeQuery(query) { (_, file, error) in
-            guard error == nil else {
-                fatalError(error!.localizedDescription)
-            }
-            
-            let folder = file as! GTLRDrive_File
-            completion(folder.identifier!)
-        }
-    }
-    
-    // Upload a file
-    func uploadFile(
-        name: String,
-        folderID: String,
-        fileURL: URL,
-        mimeType: String,
-        service: GTLRDriveService) {
-        
-        let file = GTLRDrive_File()
-        file.name = name
-        file.parents = [folderID]
-        
-        // Optionally, GTLRUploadParameters can also be created with a Data object.
-        let uploadParameters = GTLRUploadParameters(fileURL: fileURL, mimeType: mimeType)
-        
-        let query = GTLRDriveQuery_FilesCreate.query(withObject: file, uploadParameters: uploadParameters)
-        
-        service.uploadProgressBlock = { _, totalBytesUploaded, totalBytesExpectedToUpload in
-            // This block is called multiple times during upload and can
-            // be used to update a progress indicator visible to the user.
-        }
-        
-        service.executeQuery(query) { (_, result, error) in
-            guard error == nil else {
-                fatalError(error!.localizedDescription)
-            }
-            
-            // Successful upload if no error is returned.
-        }
-    }
-    
-    
-    // Create Folder Example
-    func populateFolderID(folder_name: String) {
-        getFolderID(
-            name: folder_name,
-            service: googleDriveService,
-            user: googleUser!) { folderID in
-            if folderID == nil {
-                self.createFolder(
-                    name: folder_name,
-                    service: self.googleDriveService) {
-                    self.uploadFolderID = $0
-                }
-            } else {
-                // Folder already exists
-                self.uploadFolderID = folderID
-            }
-        }
-    }
-    
-    
-    
-    // Testing Lisiting Folder and Files
+    // Search for a folder/file
     public func search(_ fileName: String, onCompleted: @escaping (String?, Error?) -> ()) {
         let query = GTLRDriveQuery_FilesList.query()
         query.pageSize = 1
@@ -221,17 +111,20 @@ extension AuthenticationViewModel {
             onCompleted((results as? GTLRDrive_FileList)?.files?.first?.identifier, error)
         }
     }
-        
+    
+    // List Files with folder ID
     public func listFiles(_ folderID: String, onCompleted: @escaping (GTLRDrive_FileList?, Error?) -> ()) {
         let query = GTLRDriveQuery_FilesList.query()
         query.pageSize = 100
         query.q = "'\(folderID)' in parents"
+        query.fields = "files(id,name,parents,mimeType)"
             
         googleDriveService.executeQuery(query) { (ticket, result, error) in
             onCompleted(result as? GTLRDrive_FileList, error)
         }
     }
     
+    // List files with folder name
     public func listFilesInFolder(_ folder: String, onCompleted: @escaping (GTLRDrive_FileList?, Error?) -> ()) {
         search(folder) { (folderID, error) in
             guard let ID = folderID else {
@@ -242,6 +135,22 @@ extension AuthenticationViewModel {
         }
     }
     
+    // Create a folder
+    public func createFolder(_ name: String, parent: String, onCompleted: @escaping (String?, Error?) -> ()) {
+        let file = GTLRDrive_File()
+        file.name = name
+        file.parents = [parent]
+        file.mimeType = "application/vnd.google-apps.folder"
+            
+        let query = GTLRDriveQuery_FilesCreate.query(withObject: file, uploadParameters: nil)
+        query.fields = "id"
+            
+        googleDriveService.executeQuery(query) { (ticket, folder, error) in
+            onCompleted((folder as? GTLRDrive_File)?.identifier, error)
+        }
+    }
+    
+    // Download a file using its id
     public func download(_ fileID: String, onCompleted: @escaping (Data?, Error?) -> ()) {
         let query = GTLRDriveQuery_FilesGet.queryForMedia(withFileId: fileID)
         googleDriveService.executeQuery(query) { (ticket, file, error) in
@@ -249,4 +158,11 @@ extension AuthenticationViewModel {
         }
     }
     
+    // Delete a file using its id
+    public func delete(_ fileID: String, onCompleted: ((Error?) -> ())?) {
+        let query = GTLRDriveQuery_FilesDelete.query(withFileId: fileID)
+        googleDriveService.executeQuery(query) { (ticket, nilFile, error) in
+            onCompleted?(error)
+        }
+    }
 }

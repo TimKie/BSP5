@@ -33,7 +33,7 @@ struct Sidebar: View {
             .navigationTitle("Cloud Services")
             
             // Default View (before selecting)
-            iCloudDriveView()
+            GoogleDriveView()
         }
     }
 }

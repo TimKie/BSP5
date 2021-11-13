@@ -43,7 +43,7 @@ struct Settings: View {
                     }
                 }
                 
-                Section(header: Text("General").font(.title3).padding(.vertical)) {
+                Section(header: Text("Appearance").font(.title3).padding(.vertical)) {
                     Picker("Mode", selection: $dark_mode) {
                         Text("Light").tag(false)
                         Text("Dark").tag(true)

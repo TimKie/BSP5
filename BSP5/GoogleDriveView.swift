@@ -12,8 +12,6 @@ import GoogleAPIClientForREST
 
 
 struct GoogleDriveView: View {
-    @State var folderName: String = ""
-    
     @State var files: [GTLRDrive_File] = []
     
     // Declare an environment object
@@ -39,6 +37,10 @@ struct GoogleDriveView: View {
                         Text(user?.profile.email ?? "")
                             .font(.subheadline)
                     }
+                    
+                    if viewModel.state == .signedOut {
+                        Text("Login to view content.")
+                    }
 
                     Spacer()
                     
@@ -51,21 +53,10 @@ struct GoogleDriveView: View {
 
                 Spacer()
                 
-                // Create Folder
-                /*
-                Form {
-                    TextField("Folder Name", text: $folderName)
-                    Button("Create Folder") {
-                        viewModel.populateFolderID(folder_name: folderName)
-                    }
-                }
-                */
-                
-                
-                // navigation with list (only clockable if data is a folder, i.e. mimeType is folder type)
+                // navigation with list (only clickable if data is a folder, i.e. mimeType is folder type)
                 List(files, id: \.self) {file in
                     if file.mimeType == "application/vnd.google-apps.folder" {
-                        NavigationLink(destination: GoogleDriveFolderView(file_data: files, folder_id: file.identifier!)) {
+                        NavigationLink(destination: GoogleDriveFolderView(file_data: files, folder_id: file.identifier!, file_history: [file])) {
                             Text(file.name!)
                         }
                     }
