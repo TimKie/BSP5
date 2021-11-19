@@ -117,7 +117,7 @@ extension AuthenticationViewModel {
         let query = GTLRDriveQuery_FilesList.query()
         query.pageSize = 100
         query.q = "'\(folderID)' in parents"
-        query.fields = "files(id,name,parents,mimeType)"
+        query.fields = "files(id,name,parents,mimeType,thumbnailLink,iconLink,webContentLink)"
             
         googleDriveService.executeQuery(query) { (ticket, result, error) in
             onCompleted(result as? GTLRDrive_FileList, error)
@@ -136,7 +136,7 @@ extension AuthenticationViewModel {
     }
     
     // Create a folder
-    public func createFolder(_ name: String, parent: String, onCompleted: @escaping (String?, Error?) -> ()) {
+    public func createFolder(_ name: String, parent: String) {
         let file = GTLRDrive_File()
         file.name = name
         file.parents = [parent]
@@ -145,9 +145,7 @@ extension AuthenticationViewModel {
         let query = GTLRDriveQuery_FilesCreate.query(withObject: file, uploadParameters: nil)
         query.fields = "id"
             
-        googleDriveService.executeQuery(query) { (ticket, folder, error) in
-            onCompleted((folder as? GTLRDrive_File)?.identifier, error)
-        }
+        googleDriveService.executeQuery(query)
     }
     
     // Download a file using its id

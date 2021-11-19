@@ -12,8 +12,10 @@
 		225E45F7271434B700BD1E88 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225E45F6271434B700BD1E88 /* ContentView.swift */; };
 		225E45F9271434B800BD1E88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225E45F8271434B800BD1E88 /* Assets.xcassets */; };
 		225E45FC271434B800BD1E88 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225E45FB271434B800BD1E88 /* Preview Assets.xcassets */; };
+		2287BC1227468FCE00866545 /* CreateFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2287BC1127468FCE00866545 /* CreateFolderView.swift */; };
 		22CA39242722B47300E74FF3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 22CA39232722B47300E74FF3 /* GoogleService-Info.plist */; };
 		22CA39282722B7A900E74FF3 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CA39272722B7A900E74FF3 /* AuthenticationViewModel.swift */; };
+		22E681002747F11E00C574F8 /* ShowImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E680FF2747F11E00C574F8 /* ShowImageView.swift */; };
 		22F31DD4271D6BBD00B82A6D /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F31DD3271D6BBD00B82A6D /* Sidebar.swift */; };
 		22F31DD6271D6E6800B82A6D /* iCloudDriveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */; };
 		22F31DD8271D6E9300B82A6D /* GoogleDriveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F31DD7271D6E9300B82A6D /* GoogleDriveView.swift */; };
@@ -30,8 +32,10 @@
 		225E45F6271434B700BD1E88 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		225E45F8271434B800BD1E88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		225E45FB271434B800BD1E88 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2287BC1127468FCE00866545 /* CreateFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFolderView.swift; sourceTree = "<group>"; };
 		22CA39232722B47300E74FF3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		22CA39272722B7A900E74FF3 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		22E680FF2747F11E00C574F8 /* ShowImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowImageView.swift; sourceTree = "<group>"; };
 		22F31DD3271D6BBD00B82A6D /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 		22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudDriveView.swift; sourceTree = "<group>"; };
 		22F31DD7271D6E9300B82A6D /* GoogleDriveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveView.swift; sourceTree = "<group>"; };
@@ -78,14 +82,8 @@
 				22FB2BBE2721C536003AE5ED /* Info.plist */,
 				22CA39232722B47300E74FF3 /* GoogleService-Info.plist */,
 				225E45F4271434B700BD1E88 /* BSP5App.swift */,
-				225E45F6271434B700BD1E88 /* ContentView.swift */,
-				22F31DDB271D982700B82A6D /* Settings.swift */,
-				22F31DD3271D6BBD00B82A6D /* Sidebar.swift */,
-				22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */,
-				22F31DD9271D6E9F00B82A6D /* DropboxView.swift */,
-				22CA39272722B7A900E74FF3 /* AuthenticationViewModel.swift */,
-				22F31DD7271D6E9300B82A6D /* GoogleDriveView.swift */,
-				2212866E273572BA00CD7290 /* GoogleDriveFolderView.swift */,
+				22E680FD2747D0ED00C574F8 /* View */,
+				2287BC1027468F9B00866545 /* ViewModel */,
 				225E45F8271434B800BD1E88 /* Assets.xcassets */,
 				225E45FA271434B800BD1E88 /* Preview Content */,
 			);
@@ -98,6 +96,38 @@
 				225E45FB271434B800BD1E88 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2287BC1027468F9B00866545 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				22CA39272722B7A900E74FF3 /* AuthenticationViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		22E680FD2747D0ED00C574F8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				22E680FE2747D11E00C574F8 /* Google Drive */,
+				22F31DDB271D982700B82A6D /* Settings.swift */,
+				225E45F6271434B700BD1E88 /* ContentView.swift */,
+				22F31DD3271D6BBD00B82A6D /* Sidebar.swift */,
+				22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */,
+				22F31DD9271D6E9F00B82A6D /* DropboxView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		22E680FE2747D11E00C574F8 /* Google Drive */ = {
+			isa = PBXGroup;
+			children = (
+				22F31DD7271D6E9300B82A6D /* GoogleDriveView.swift */,
+				2212866E273572BA00CD7290 /* GoogleDriveFolderView.swift */,
+				2287BC1127468FCE00866545 /* CreateFolderView.swift */,
+				22E680FF2747F11E00C574F8 /* ShowImageView.swift */,
+			);
+			path = "Google Drive";
 			sourceTree = "<group>";
 		};
 		CE799E0C55EDF6969B5FDFC6 /* Frameworks */ = {
@@ -258,6 +288,8 @@
 				22F31DDC271D982700B82A6D /* Settings.swift in Sources */,
 				225E45F5271434B700BD1E88 /* BSP5App.swift in Sources */,
 				2212866F273572BA00CD7290 /* GoogleDriveFolderView.swift in Sources */,
+				22E681002747F11E00C574F8 /* ShowImageView.swift in Sources */,
+				2287BC1227468FCE00866545 /* CreateFolderView.swift in Sources */,
 				22F31DDA271D6E9F00B82A6D /* DropboxView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

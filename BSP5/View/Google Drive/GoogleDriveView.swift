@@ -11,9 +11,7 @@ import GoogleSignIn
 import GoogleAPIClientForREST
 
 
-struct GoogleDriveView: View {
-    @State var files: [GTLRDrive_File] = []
-    
+struct GoogleDriveView: View {    
     // Declare an environment object
     @EnvironmentObject var viewModel: AuthenticationViewModel
 
@@ -53,29 +51,14 @@ struct GoogleDriveView: View {
 
                 Spacer()
                 
-                // navigation with list (only clickable if data is a folder, i.e. mimeType is folder type)
-                List(files, id: \.self) {file in
-                    if file.mimeType == "application/vnd.google-apps.folder" {
-                        NavigationLink(destination: GoogleDriveFolderView(file_data: files, folder_id: file.identifier!, file_history: [file])) {
-                            Text(file.name!)
-                        }
-                    }
-                    else {
-                        Text(file.name!)
-                    }
-                }
+                // Calling the GoogleDriveFolderView() which handles the displaying of the folder/files
+                // ("root" is the folderID of the root directory of Google Drive)
+                GoogleDriveFolderView(folder_id: "root")
+            
             }
             .navigationTitle("Google Drive")
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear {
-            viewModel.listFilesInFolder("BSP5 TEST Folder") {(file_list, error) in
-                guard let l = file_list else {
-                    return
-                }
-                files = l.files!
-            }
-        }
     }
 }
 
