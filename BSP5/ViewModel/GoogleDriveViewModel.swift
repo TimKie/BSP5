@@ -11,11 +11,10 @@ import GoogleSignIn
 import GoogleAPIClientForREST
 
 
-class AuthenticationViewModel: NSObject, ObservableObject {
+class GoogleDriveViewModel: NSObject, ObservableObject {
     // var for making Google Drive API requests
     let googleDriveService = GTLRDriveService()
     var googleUser: GIDGoogleUser?
-    var uploadFolderID: String?
     
 
   // define the sign-in and sign-out state for Google Sign-In
@@ -65,7 +64,7 @@ class AuthenticationViewModel: NSObject, ObservableObject {
 
 import GTMSessionFetcher
 
-extension AuthenticationViewModel: GIDSignInDelegate {
+extension GoogleDriveViewModel: GIDSignInDelegate {
 
   // When the user finishes the sign-in flow, GIDSignInDelegate calls this method.
   func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -98,21 +97,10 @@ extension AuthenticationViewModel: GIDSignInDelegate {
 
 
 
-// -------------------------------------------- Google Drive functions --------------------------------------------
-extension AuthenticationViewModel {
-
-    // Search for a folder/file
-    public func search(_ fileName: String, onCompleted: @escaping (String?, Error?) -> ()) {
-        let query = GTLRDriveQuery_FilesList.query()
-        query.pageSize = 1
-        query.q = "name contains '\(fileName)'"
-            
-        googleDriveService.executeQuery(query) { (ticket, results, error) in
-            onCompleted((results as? GTLRDrive_FileList)?.files?.first?.identifier, error)
-        }
-    }
+// -------------------------------------------- Google Drive functions (queries) --------------------------------------------
+extension GoogleDriveViewModel {
     
-    // List Files with folder ID
+    // List files with folder ID
     public func listFiles(_ folderID: String, onCompleted: @escaping (GTLRDrive_FileList?, Error?) -> ()) {
         let query = GTLRDriveQuery_FilesList.query()
         query.pageSize = 100
@@ -124,26 +112,14 @@ extension AuthenticationViewModel {
         }
     }
     
-    // List files with folder name
-    public func listFilesInFolder(_ folder: String, onCompleted: @escaping (GTLRDrive_FileList?, Error?) -> ()) {
-        search(folder) { (folderID, error) in
-            guard let ID = folderID else {
-                onCompleted(nil, error)
-                return
-            }
-            self.listFiles(ID, onCompleted: onCompleted)
-        }
-    }
-    
     // Create a folder
-    public func createFolder(_ name: String, parent: String) {
+    public func createFolder(name: String, parent: String) {
         let file = GTLRDrive_File()
         file.name = name
         file.parents = [parent]
         file.mimeType = "application/vnd.google-apps.folder"
             
         let query = GTLRDriveQuery_FilesCreate.query(withObject: file, uploadParameters: nil)
-        query.fields = "id"
             
         googleDriveService.executeQuery(query)
     }

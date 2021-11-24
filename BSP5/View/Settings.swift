@@ -10,7 +10,7 @@ import SwiftUI
 struct Settings: View {
     
     // Declare an environment object
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: GoogleDriveViewModel
     
     @State private var notification_all: Bool = true
     @State private var notification_delete: Bool = true
@@ -53,15 +53,30 @@ struct Settings: View {
                 
                 Section(header: Text("Google Drive").font(.title3).padding(.vertical)) {
                     // Sign In button for Google Drive
-                    Button("Sign in") {
+                    Button {
                         viewModel.signIn()
+                    } label: {
+                        HStack {
+                            Image("google_icon")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            Text("Sign In")
+                                .foregroundColor(dark_mode ? Color.white : Color.black)
+                        }
                     }
-                    
+        
                     // Sign Out Button for Google Srive
-                    Button("Sign out") {
+                    Button {
                         viewModel.signOut()
+                    } label: {
+                        HStack {
+                            Image("google_icon")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            Text("Sign Out")
+                                .foregroundColor(dark_mode ? Color.white : Color.black)
+                        }
                     }
-                    
                 }
             }
         }

@@ -12,7 +12,7 @@ struct CreateFolderView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: GoogleDriveViewModel
 
     @State var folderName: String = ""
     @State var file_history: [GTLRDrive_File]
@@ -44,7 +44,12 @@ struct CreateFolderView: View {
                 .cornerRadius(8)
                 
                 Button(action: {
-                    viewModel.createFolder(folderName, parent: file_history.last!.identifier!)
+                    if file_history.isEmpty {
+                        viewModel.createFolder(name: folderName, parent: "root")
+                    }
+                    else {
+                        viewModel.createFolder(name: folderName, parent: file_history.last!.identifier!)
+                    }
                     dismiss()
                 }, label: {
                     HStack {

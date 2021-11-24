@@ -16,7 +16,10 @@ struct Sidebar: View {
                 }
                 
                 NavigationLink(destination: GoogleDriveView()) {
-                    Label("Google Drive", systemImage: "externaldrive")
+                    Image("google_drive_icon")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                    Text("Google Drive")
                 }
                 
                 NavigationLink(destination: DropboxView()) {

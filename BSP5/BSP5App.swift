@@ -12,7 +12,7 @@ import GoogleSignIn
 
 @main
 struct BSP5App: App {
-    @StateObject var viewModel = AuthenticationViewModel()
+    @StateObject var viewModel = GoogleDriveViewModel()
     
     // Firebase Authentication Initializer
     init() {

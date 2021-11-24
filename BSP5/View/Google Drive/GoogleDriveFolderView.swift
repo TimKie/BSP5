@@ -11,7 +11,7 @@ import GoogleAPIClientForREST
 
 
 struct GoogleDriveFolderView: View {
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: GoogleDriveViewModel
     
     @AppStorage("dark_mode") private var dark_mode = false
     
@@ -27,7 +27,9 @@ struct GoogleDriveFolderView: View {
     
     var body: some View {
         VStack {
-            if isLoaded {
+            if isLoaded && viewModel.state == .signedIn {
+                
+                // ------------------------------------- File History -------------------------------------
                 
                 // handle the case where the initial instance of this view is shown
                 HStack {
@@ -44,12 +46,9 @@ struct GoogleDriveFolderView: View {
                         }
                     }
                     .foregroundColor(dark_mode ? Color.white : Color.black)
+                    
                     Image(systemName: "greaterthan")
-                    .onAppear {
-                        // do not show the ProgessView when the user is not signed in and no data is displayed
-                        isLoaded = true
-                    }
-
+                    
                     
                     ForEach(file_history.indices, id: \.self) { index in
                         Button(file_history[index].name!){
@@ -74,7 +73,8 @@ struct GoogleDriveFolderView: View {
                         Image(systemName: "greaterthan")
                     }
                 }
-                    
+                
+                // ------------------------------------- List Files -------------------------------------
                 
                 List {
                     ForEach(file_data.indices, id: \.self) {file_index in
@@ -89,10 +89,7 @@ struct GoogleDriveFolderView: View {
                                 file_history.removeLast()
                             })
                             {
-                                HStack {
-                                    Image(systemName: "folder")
-                                    Text(file_data[file_index].name!)
-                                }
+                                Label(file_data[file_index].name!, systemImage: "folder")
                             }
                         }
                         else {
@@ -130,30 +127,45 @@ struct GoogleDriveFolderView: View {
             }
             
             else {
-                ProgressView("Retrieving Files")
+                if viewModel.state == .signedIn {
+                    ProgressView("Retrieving Files")
+                }
             }
         }
         .navigationBarItems(trailing:
-            // Create Folder
-            Button(action: {
+            // Create Folder (show the icon only if the user is signed in)
+            viewModel.state == .signedIn ? Button(action: {
                 showingCreateFolderView.toggle()
             }, label: {
                 Image(systemName: "folder.badge.plus")
             })
             .sheet(isPresented: $showingCreateFolderView, onDismiss: {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     // update files that are listed in the view (reload view after folder creation such that the folder is displayed in the list)
-                    viewModel.listFiles(file_history.last!.identifier!) {(file_list, error) in
-                        guard let l = file_list else {
-                            return
+                    if file_history.isEmpty {
+                        viewModel.listFiles("root") {(file_list, error) in
+                            guard let l = file_list else {
+                                return
+                            }
+                            
+                            file_data = l.files!
                         }
-                        
-                        file_data = l.files!
+                    }
+                    else {
+                        viewModel.listFiles(file_history.last!.identifier!) {(file_list, error) in
+                            guard let l = file_list else {
+                                return
+                            }
+                            
+                            file_data = l.files!
+                        }
                     }
                 }
             }, content: {
                 CreateFolderView(file_history: file_history)
             })
+            // if the user is not signed in -> show nothing
+            : nil
         )
         // Call function to get the list of files of the folder that was selected
         .onAppear {
@@ -163,7 +175,7 @@ struct GoogleDriveFolderView: View {
                     guard let l = file_list else {
                         return
                     }
-                    //print("------- File List:", l.files!)
+                    print("------- File List:", l.files!)
                 
                     file_data = l.files!
                     

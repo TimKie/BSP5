@@ -13,7 +13,7 @@ import GoogleAPIClientForREST
 
 struct GoogleDriveView: View {    
     // Declare an environment object
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var viewModel: GoogleDriveViewModel
 
     // Create a constant user to access the current user from the shared instance of GIDSignIn
     private let user = GIDSignIn.sharedInstance().currentUser
@@ -54,6 +54,8 @@ struct GoogleDriveView: View {
                 // Calling the GoogleDriveFolderView() which handles the displaying of the folder/files
                 // ("root" is the folderID of the root directory of Google Drive)
                 GoogleDriveFolderView(folder_id: "root")
+                
+                Spacer()
             
             }
             .navigationTitle("Google Drive")
