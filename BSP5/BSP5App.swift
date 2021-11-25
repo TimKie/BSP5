@@ -36,6 +36,7 @@ extension BSP5App {
     private func setupAuthentication() {
         FirebaseApp.configure()
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance().restorePreviousSignIn()
     }
 }
 

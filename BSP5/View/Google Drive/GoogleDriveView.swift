@@ -61,6 +61,10 @@ struct GoogleDriveView: View {
             .navigationTitle("Google Drive")
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        // Restore the SignIn state when the app was closed
+        .onAppear {
+            GIDSignIn.sharedInstance().restorePreviousSignIn()
+        }
     }
 }
 

@@ -94,15 +94,19 @@ struct GoogleDriveFolderView: View {
                         }
                         else {
                             
+                            // ------------------------------------- File Preview Sheet -------------------------------------
+                            
                             // For files: a button which calls a pop up view to dispaly the file
                             Button (action: {
                                 showingImageView.toggle()
                                 if file_data[file_index].webContentLink != nil {
                                     print("-------- Web Content URL:", file_data[file_index].webContentLink!)
+                                    print("-------- Web View URL:", file_data[file_index].webViewLink!)
                                 }
                             }, label: {
                                 HStack {
                                     if file_data[file_index].thumbnailLink != nil {
+                                        // Show the icon for a file until the thumbnail is loaded, then show the thumbnail (on the left side of the file name)
                                         AsyncImage(url: URL(string: file_data[file_index].thumbnailLink!)) { image in
                                             image.resizable()
                                         } placeholder: {
@@ -111,13 +115,14 @@ struct GoogleDriveFolderView: View {
                                         .frame(width: 24, height: 24)
                                         .clipShape(RoundedRectangle(cornerRadius: 5))
                                         Text(file_data[file_index].name!)
+                                            .foregroundColor(dark_mode ? Color.white : Color.black)
                                     }
                                 }
                             })
                             .foregroundColor(Color.black)
                             .sheet(isPresented: $showingImageView) {
                                 if file_data[file_index].webContentLink != nil {
-                                    ShowImageView(imageLink: file_data[file_index].webContentLink!)
+                                    PreviewView(file: file_data[file_index])
                                 }
                             }
                         }
@@ -133,6 +138,9 @@ struct GoogleDriveFolderView: View {
             }
         }
         .navigationBarItems(trailing:
+                                
+            // ------------------------------------- Folder Creation Sheet -------------------------------------
+                            
             // Create Folder (show the icon only if the user is signed in)
             viewModel.state == .signedIn ? Button(action: {
                 showingCreateFolderView.toggle()
@@ -167,6 +175,9 @@ struct GoogleDriveFolderView: View {
             // if the user is not signed in -> show nothing
             : nil
         )
+        
+        // ------------------------------------- Function Call -------------------------------------
+        
         // Call function to get the list of files of the folder that was selected
         .onAppear {
             // DispactchQueue because onAppear loads twice (known error)

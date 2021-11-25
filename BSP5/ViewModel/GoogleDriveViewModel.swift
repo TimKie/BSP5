@@ -105,7 +105,7 @@ extension GoogleDriveViewModel {
         let query = GTLRDriveQuery_FilesList.query()
         query.pageSize = 100
         query.q = "'\(folderID)' in parents"
-        query.fields = "files(id,name,parents,mimeType,thumbnailLink,iconLink,webContentLink)"
+        query.fields = "files(id,name,parents,mimeType,thumbnailLink,iconLink,webContentLink,webViewLink)"
             
         googleDriveService.executeQuery(query) { (ticket, result, error) in
             onCompleted(result as? GTLRDrive_FileList, error)
