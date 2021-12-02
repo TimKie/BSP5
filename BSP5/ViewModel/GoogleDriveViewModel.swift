@@ -139,4 +139,16 @@ extension GoogleDriveViewModel {
             onCompleted?(error)
         }
     }
+    
+    // Update the name of a file using its id
+    public func updateFileName(file: GTLRDrive_File, newName: String, onCompleted: ((Error?) -> ())?) {
+        let newFile = GTLRDrive_File()
+        newFile.name = newName
+        
+        let query = GTLRDriveQuery_FilesUpdate.query(withObject: newFile, fileId: file.identifier! ,uploadParameters: nil)
+        
+        googleDriveService.executeQuery(query) { (ticket, nilFile, error) in
+            onCompleted?(error)
+        }
+    }
 }

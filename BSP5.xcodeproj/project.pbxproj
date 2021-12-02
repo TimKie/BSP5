@@ -16,6 +16,7 @@
 		22B56DC5274F9C1100EA4C46 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B56DC4274F9C1100EA4C46 /* WebView.swift */; };
 		22CA39242722B47300E74FF3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 22CA39232722B47300E74FF3 /* GoogleService-Info.plist */; };
 		22CA39282722B7A900E74FF3 /* GoogleDriveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CA39272722B7A900E74FF3 /* GoogleDriveViewModel.swift */; };
+		22D5E0432759055600718E63 /* RenameFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D5E0422759055600718E63 /* RenameFileView.swift */; };
 		22E681002747F11E00C574F8 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E680FF2747F11E00C574F8 /* PreviewView.swift */; };
 		22F31DD4271D6BBD00B82A6D /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F31DD3271D6BBD00B82A6D /* Sidebar.swift */; };
 		22F31DD6271D6E6800B82A6D /* iCloudDriveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */; };
@@ -37,6 +38,7 @@
 		22B56DC4274F9C1100EA4C46 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		22CA39232722B47300E74FF3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		22CA39272722B7A900E74FF3 /* GoogleDriveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveViewModel.swift; sourceTree = "<group>"; };
+		22D5E0422759055600718E63 /* RenameFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameFileView.swift; sourceTree = "<group>"; };
 		22E680FF2747F11E00C574F8 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		22F31DD3271D6BBD00B82A6D /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 		22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudDriveView.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				22F31DD7271D6E9300B82A6D /* GoogleDriveView.swift */,
 				2212866E273572BA00CD7290 /* GoogleDriveFolderView.swift */,
 				2287BC1127468FCE00866545 /* CreateFolderView.swift */,
+				22D5E0422759055600718E63 /* RenameFileView.swift */,
 				22E680FF2747F11E00C574F8 /* PreviewView.swift */,
 			);
 			path = "Google Drive";
@@ -284,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				225E45F7271434B700BD1E88 /* ContentView.swift in Sources */,
+				22D5E0432759055600718E63 /* RenameFileView.swift in Sources */,
 				22F31DD6271D6E6800B82A6D /* iCloudDriveView.swift in Sources */,
 				22F31DD8271D6E9300B82A6D /* GoogleDriveView.swift in Sources */,
 				22F31DD4271D6BBD00B82A6D /* Sidebar.swift in Sources */,

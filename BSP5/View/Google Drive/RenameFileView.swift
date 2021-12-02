@@ -1,29 +1,29 @@
 //
-//  CreateFolderView.swift
+//  RenameFileView.swift
 //  BSP5
 //
-//  Created by Tim Kieffer on 18/11/2021.
+//  Created by Tim Kieffer on 02/12/2021.
 //
 
 import SwiftUI
 import GoogleAPIClientForREST
 
-struct CreateFolderView: View {
+struct RenameFileView: View {
     
     @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var viewModel: GoogleDriveViewModel
 
-    @State var folderName: String = ""
-    var parent: String
+    var file: GTLRDrive_File
+    @State var newFileName: String = ""
     
     var body: some View {
         VStack(spacing:100) {
-            Text("Create a Folder")
+            Text("Rename File")
                 .font(.title)
                 .multilineTextAlignment(.center)
 
-            TextField("Enter Folder Name", text: $folderName)
+            TextField(file.name!, text: $newFileName)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 150.0)
             
@@ -44,13 +44,17 @@ struct CreateFolderView: View {
                 .cornerRadius(8)
                 
                 Button(action: {
-                    print("------------------------ PARENT:", parent)
-                    viewModel.createFolder(name: folderName, parent: parent)
+                    viewModel.updateFileName(file: file, newName: newFileName) { error in
+                        guard let error = error else {
+                            return
+                        }
+                        print("Error when updating file name: \(error)")
+                    }
                     dismiss()
                 }, label: {
                     HStack {
                         Spacer()
-                        Text("Create Folder")
+                        Text("Rename")
                         Spacer()
                     }
                 })
@@ -62,14 +66,16 @@ struct CreateFolderView: View {
             }
             .padding(.horizontal, 150.0)
         }
+        .onAppear {
+            newFileName = file.name!
+        }
     }
 }
 
-
 /*
-struct CreateFolderView_Previews: PreviewProvider {
+struct RenameFileView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateFolderView()
+        RenameFileView()
     }
 }
 */
