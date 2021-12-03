@@ -41,6 +41,7 @@
 		22D5E0422759055600718E63 /* RenameFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameFileView.swift; sourceTree = "<group>"; };
 		22E680FF2747F11E00C574F8 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		22F2FA44275A863400032B79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		22F2FA47275A86AA00032B79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		22F31DD3271D6BBD00B82A6D /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 		22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudDriveView.swift; sourceTree = "<group>"; };
 		22F31DD7271D6E9300B82A6D /* GoogleDriveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveView.swift; sourceTree = "<group>"; };
@@ -85,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				225748FE275A7750001F2430 /* BSP5.entitlements */,
+				22F2FA47275A86AA00032B79 /* GoogleService-Info.plist */,
 				22FB2BBE2721C536003AE5ED /* Info.plist */,
 				225E45F4271434B700BD1E88 /* BSP5App.swift */,
 				22E680FD2747D0ED00C574F8 /* View */,
