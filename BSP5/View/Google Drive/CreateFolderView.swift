@@ -13,6 +13,8 @@ struct CreateFolderView: View {
     @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var viewModel: GoogleDriveViewModel
+    
+    @FocusState var isFocused: Bool
 
     @State var folderName: String = ""
     var parent: String
@@ -24,6 +26,7 @@ struct CreateFolderView: View {
                 .multilineTextAlignment(.center)
 
             TextField("Enter Folder Name", text: $folderName)
+                .focused($isFocused)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 150.0)
             
@@ -44,7 +47,6 @@ struct CreateFolderView: View {
                 .cornerRadius(8)
                 
                 Button(action: {
-                    print("------------------------ PARENT:", parent)
                     viewModel.createFolder(name: folderName, parent: parent)
                     dismiss()
                 }, label: {
@@ -61,6 +63,12 @@ struct CreateFolderView: View {
                 
             }
             .padding(.horizontal, 150.0)
+        }
+        .onAppear {
+            // chnage the focus (first responder) to the text field such that the keyboard automatically shows
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                isFocused = true
+            }
         }
     }
 }

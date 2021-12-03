@@ -13,6 +13,8 @@ struct RenameFileView: View {
     @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var viewModel: GoogleDriveViewModel
+    
+    @FocusState var isFocused: Bool
 
     var file: GTLRDrive_File
     @State var newFileName: String = ""
@@ -24,6 +26,7 @@ struct RenameFileView: View {
                 .multilineTextAlignment(.center)
 
             TextField(file.name!, text: $newFileName)
+                .focused($isFocused)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 150.0)
             
@@ -67,7 +70,12 @@ struct RenameFileView: View {
             .padding(.horizontal, 150.0)
         }
         .onAppear {
+            // chnage the focus (first responder) to the text field such that the keyboard automatically shows
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                isFocused = true
+            }
             newFileName = file.name!
+            
         }
     }
 }

@@ -20,6 +20,7 @@ struct GoogleDriveFolderView: View {
     
     let listRowHeight = 55
     
+    @State var deleteFileID: Int? = nil
     @State var createFolder_parentID: String? = nil
     @State var index_of_rename_file: Int? = nil
     @State var folderName: String = ""
@@ -96,7 +97,8 @@ struct GoogleDriveFolderView: View {
                                 Label(file_data[file_index].name!, systemImage: "folder")
                                 .contextMenu {
                                     Button(role: .destructive) {
-                                        deleteFile(at: IndexSet([file_index]))
+                                        deleteFileID = file_index
+                                
                                     } label: {
                                         Label("Delete Folder", systemImage: "trash")
                                     }
@@ -141,7 +143,8 @@ struct GoogleDriveFolderView: View {
                                         .foregroundColor(dark_mode ? Color.white : Color.black)
                                         .contextMenu {
                                             Button(role: .destructive) {
-                                                deleteFile(at: IndexSet([file_index]))
+                                                deleteFileID = file_index
+                                        
                                             } label: {
                                                 Label("Delete File", systemImage: "trash")
                                             }
@@ -169,8 +172,19 @@ struct GoogleDriveFolderView: View {
                             }
                         }
                     }
-                    .onDelete(perform: deleteFile)
+                    .onDelete(perform: alertAndDeleteFile)
                 }
+                // Alert before deleting a file/folder
+                .alert(item: $deleteFileID) { item in
+                    Alert(
+                        title: Text("Do you really want to delete the file?"),
+                        primaryButton: .destructive(Text("Delete File"), action: {
+                            deleteFile(at: IndexSet([item]))
+                        }),
+                        secondaryButton: .default(Text("Cancel"))
+                    )
+                }
+                // Showing sheet to rename a file
                 .sheet(item: $index_of_rename_file, onDismiss: {
                     updateList()
                 }, content: { item in
@@ -227,6 +241,10 @@ struct GoogleDriveFolderView: View {
         }
     }
     
+    // function to trigger the delete alert also for swiping gesture (for deleting)
+    func alertAndDeleteFile(at offsets: IndexSet){
+        deleteFileID = offsets.first!
+    }
     
     // function to delete an element of the list and call of the function to delete the element also in Google Drive
     func deleteFile(at offsets: IndexSet) {
