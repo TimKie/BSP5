@@ -173,6 +173,29 @@ struct GoogleDriveFolderView: View {
                         }
                     }
                     .onDelete(perform: alertAndDeleteFile)
+                    .onMove(perform: move)
+                }
+                .toolbar {
+                    // ------------------------------------- Folder Creation Sheet -------------------------------------
+                                    
+                    // Create Folder (show the icon only if the user is signed in)
+                    viewModel.state == .signedIn ? Button(action: {
+                        if file_history.isEmpty {
+                            createFolder_parentID = "root"
+                        }
+                        else {
+                            createFolder_parentID = file_history.last!.identifier!
+                        }
+                    }, label: {
+                        Image(systemName: "folder.badge.plus")
+                    })
+                    .sheet(item: $createFolder_parentID, onDismiss: {
+                        updateList()
+                    }, content: { item in
+                        CreateFolderView(parent: item)
+                    })
+                    // if the user is not signed in -> show nothing
+                    : nil
                 }
                 // Alert before deleting a file/folder
                 .alert(item: $deleteFileID) { item in
@@ -197,30 +220,6 @@ struct GoogleDriveFolderView: View {
                 }
             }
         }
-        .navigationBarItems(trailing:
-                                
-            // ------------------------------------- Folder Creation Sheet -------------------------------------
-                            
-            // Create Folder (show the icon only if the user is signed in)
-            viewModel.state == .signedIn ? Button(action: {
-                if file_history.isEmpty {
-                    createFolder_parentID = "root"
-                }
-                else {
-                    createFolder_parentID = file_history.last!.identifier!
-                }
-            }, label: {
-                Image(systemName: "folder.badge.plus")
-            })
-            .sheet(item: $createFolder_parentID, onDismiss: {
-                updateList()
-            }, content: { item in
-                CreateFolderView(parent: item)
-            })
-            // if the user is not signed in -> show nothing
-            : nil
-        )
-        
         // ------------------------------------- Function Call -------------------------------------
         
         // Call function to get the list of files of the folder that was selected
@@ -231,7 +230,7 @@ struct GoogleDriveFolderView: View {
                     guard let l = file_list else {
                         return
                     }
-                    print("------- File List:", l.files!)
+                    //print("------- File List:", l.files!)
                 
                     file_data = l.files!
                     
@@ -240,6 +239,11 @@ struct GoogleDriveFolderView: View {
             }
         }
     }
+    
+    // move item in the list
+    func move(from source: IndexSet, to destination: Int) {
+            file_data.move(fromOffsets: source, toOffset: destination)
+        }
     
     // function to trigger the delete alert also for swiping gesture (for deleting)
     func alertAndDeleteFile(at offsets: IndexSet){
