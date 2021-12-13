@@ -18,8 +18,6 @@ struct GoogleDriveFolderView: View {
     @State var showingCreateFolderView = false
     @State var showingImageView = false
     
-    let listRowHeight = 55
-    
     @State var deleteFileID: Int? = nil
     @State var createFolder_parentID: String? = nil
     @State var index_of_rename_file: Int? = nil
@@ -78,6 +76,11 @@ struct GoogleDriveFolderView: View {
                         Image(systemName: "greaterthan")
                     }
                 }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color(.systemGray6))
+                .cornerRadius(15)
+                .padding(.horizontal)
                 
                 // ------------------------------------- List Folders -------------------------------------
                 
@@ -95,6 +98,7 @@ struct GoogleDriveFolderView: View {
                             })
                             {
                                 Label(file_data[file_index].name!, systemImage: "folder")
+                                .foregroundColor(dark_mode ? Color.white : Color.black)
                                 .contextMenu {
                                     Button(role: .destructive) {
                                         deleteFileID = file_index
@@ -119,14 +123,14 @@ struct GoogleDriveFolderView: View {
                         }
                         else {
                             
-                            // ------------------------------------- Lis Files + Preview Sheet -------------------------------------
+                            // ------------------------------------- List Files + Preview Sheet -------------------------------------
                             
                             // For files: a button which calls a pop up view to dispaly the file
                             Button (action: {
                                 showingImageView.toggle()
                                 if file_data[file_index].webContentLink != nil {
-                                    print("-------- Web Content URL:", file_data[file_index].webContentLink!)
-                                    print("-------- Web View URL:", file_data[file_index].webViewLink!)
+                                    //print("-------- Web Content URL:", file_data[file_index].webContentLink!)
+                                    //print("-------- Web View URL:", file_data[file_index].webViewLink!)
                                 }
                             }, label: {
                                 HStack {
@@ -164,7 +168,7 @@ struct GoogleDriveFolderView: View {
                                     }
                                 }
                             })
-                            .foregroundColor(Color.black)
+                            .foregroundColor(.black)
                             .sheet(isPresented: $showingImageView) {
                                 if file_data[file_index].webContentLink != nil {
                                     PreviewView(file: file_data[file_index])
@@ -173,29 +177,42 @@ struct GoogleDriveFolderView: View {
                         }
                     }
                     .onDelete(perform: alertAndDeleteFile)
-                    .onMove(perform: move)
                 }
+                .cornerRadius(15)
+                .padding(.horizontal)
                 .toolbar {
-                    // ------------------------------------- Folder Creation Sheet -------------------------------------
-                                    
-                    // Create Folder (show the icon only if the user is signed in)
-                    viewModel.state == .signedIn ? Button(action: {
-                        if file_history.isEmpty {
-                            createFolder_parentID = "root"
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: Settings()) {
+                            HStack {
+                                Text("Settings")
+                                Image(systemName: "gear")
+                            }
+                            .padding(.trailing, 300)
                         }
-                        else {
-                            createFolder_parentID = file_history.last!.identifier!
-                        }
-                    }, label: {
-                        Image(systemName: "folder.badge.plus")
-                    })
-                    .sheet(item: $createFolder_parentID, onDismiss: {
-                        updateList()
-                    }, content: { item in
-                        CreateFolderView(parent: item)
-                    })
-                    // if the user is not signed in -> show nothing
-                    : nil
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        // ------------------------------------- Folder Creation Sheet -------------------------------------
+                                        
+                        // Create Folder (show the icon only if the user is signed in)
+                        viewModel.state == .signedIn ? Button(action: {
+                            if file_history.isEmpty {
+                                createFolder_parentID = "root"
+                            }
+                            else {
+                                createFolder_parentID = file_history.last!.identifier!
+                            }
+                        }, label: {
+                            Image(systemName: "folder.badge.plus")
+                        })
+                        .sheet(item: $createFolder_parentID, onDismiss: {
+                            updateList()
+                        }, content: { item in
+                            CreateFolderView(parent: item)
+                        })
+                        // if the user is not signed in -> show nothing
+                        : nil
+                    }
                 }
                 // Alert before deleting a file/folder
                 .alert(item: $deleteFileID) { item in
@@ -216,7 +233,34 @@ struct GoogleDriveFolderView: View {
             }
             else {
                 if viewModel.state == .signedIn {
+                    Spacer()
+                    
                     ProgressView("Retrieving Files")
+                        // show toolbar also when progress view is active (such that it does not diappear when the item load)
+                        // buttons in toolbar during progress view have no functionality
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button(action: {}, label: {
+                                    HStack {
+                                        Text("Settings")
+                                        Image(systemName: "gear")
+                                    }
+                                    .padding(.trailing, 300)
+                                })
+                            }
+                            
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                // Show Button (icon) only if the user is signed in
+                                viewModel.state == .signedIn ? Button(action: {}, label: {
+                                    Image(systemName: "folder.badge.plus")
+                                })
+                                // if the user is not signed in -> show nothing
+                                : nil
+                            }
+                        }
+                    
+                    Spacer()
+                    
                 }
             }
         }

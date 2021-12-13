@@ -47,7 +47,7 @@ struct RenameFileView: View {
                 .cornerRadius(8)
                 
                 Button(action: {
-                    viewModel.updateFileName(file: file, newName: newFileName) { error in
+                    viewModel.updateFileName(fileID: file.identifier!, newName: newFileName) { error in
                         guard let error = error else {
                             return
                         }

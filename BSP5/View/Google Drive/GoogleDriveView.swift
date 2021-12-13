@@ -25,7 +25,7 @@ struct GoogleDriveView: View {
                     // Access profile picture, username, email address of the user’s Google account
                     NetworkImage(url: user?.profile.imageURL(withDimension: 200))
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 100, height: 100, alignment: .center)
+                        .frame(height: 100, alignment: .leading)
                         .cornerRadius(8)
 
                     VStack(alignment: .leading) {
@@ -35,10 +35,6 @@ struct GoogleDriveView: View {
                         Text(user?.profile.email ?? "")
                             .font(.subheadline)
                     }
-                    
-                    if viewModel.state == .signedOut {
-                        Text("Login to view content.")
-                    }
 
                     Spacer()
                     
@@ -46,16 +42,43 @@ struct GoogleDriveView: View {
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(Color(.secondarySystemBackground))
-                .cornerRadius(12)
-                .padding()
+                .cornerRadius(15)
+                .padding(.horizontal)
 
+                // Show a button to access the settings page when the user is not signed in
+                if viewModel.state == .signedOut {
+                    VStack {
+                        Text("Access Settings to Log-In to your Google Account")
+                            .font(.title2)
+                            .fontWeight(.medium)
+                            .padding(.vertical, 20)
+    
+                        NavigationLink {
+                            Settings()
+                        } label: {
+                            Label("Settings", systemImage: "gear")
+                        }
+                        .buttonStyle(.plain)
+                        .padding()
+                        .foregroundColor(Color.white)
+                        .background(Color.accentColor)
+                        .cornerRadius(8)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(15)
+                    .padding(.vertical, 5)
+                    .padding(.horizontal)
+                }
+                
                 Spacer()
                 
                 // Calling the GoogleDriveFolderView() which handles the displaying of the folder/files
                 // ("root" is the folderID of the root directory of Google Drive)
                 GoogleDriveFolderView(folder_id: "root")
                 
-                Spacer()
+                //Spacer()
             
             }
             .navigationTitle("Google Drive")
@@ -65,6 +88,14 @@ struct GoogleDriveView: View {
         // Restore the SignIn state when the app was closed
         .onAppear {
             GIDSignIn.sharedInstance().restorePreviousSignIn()
+            
+            // Calling the function to create a notification channel
+            viewModel.watchChanges { error in
+                guard let error = error else {
+                    return
+                }
+                print("Error when watching file changes: \(error)")
+            }
         }
     }
 }
@@ -91,6 +122,8 @@ struct NetworkImage: View {
             Image(systemName: "person.circle.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
+            Text("Login to view content.")
+                .padding(.leading)
         }
     }
 }

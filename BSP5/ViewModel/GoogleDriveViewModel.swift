@@ -124,13 +124,14 @@ extension GoogleDriveViewModel {
         googleDriveService.executeQuery(query)
     }
     
+    /*
     // Download a file using its id
     public func download(_ fileID: String, onCompleted: @escaping (Data?, Error?) -> ()) {
         let query = GTLRDriveQuery_FilesGet.queryForMedia(withFileId: fileID)
         googleDriveService.executeQuery(query) { (ticket, file, error) in
             onCompleted((file as? GTLRDataObject)?.data, error)
         }
-    }
+    */
     
     // Delete a file using its id
     public func delete(_ fileID: String, onCompleted: ((Error?) -> ())?) {
@@ -141,12 +142,26 @@ extension GoogleDriveViewModel {
     }
     
     // Update the name of a file using its id
-    public func updateFileName(file: GTLRDrive_File, newName: String, onCompleted: ((Error?) -> ())?) {
+    public func updateFileName(fileID: String , newName: String, onCompleted: ((Error?) -> ())?) {
         let newFile = GTLRDrive_File()
         newFile.name = newName
         
-        let query = GTLRDriveQuery_FilesUpdate.query(withObject: newFile, fileId: file.identifier! ,uploadParameters: nil)
+        let query = GTLRDriveQuery_FilesUpdate.query(withObject: newFile, fileId: fileID, uploadParameters: nil)
         
+        googleDriveService.executeQuery(query) { (ticket, nilFile, error) in
+            onCompleted?(error)
+        }
+    }
+    
+    // Watch files/folder to enable Push Notifications
+    public func watchChanges(onCompleted: ((Error?) -> ())?) {
+        let uuid = UUID().uuidString
+        let channel = GTLRDrive_Channel(json: [
+            "id": uuid,
+            "type": "web_hook",
+            "address": "https://us-central1-bsp5-329715.cloudfunctions.net/BSP5Notifications",
+        ])
+        let query = GTLRDriveQuery_ChangesWatch.query(withObject: channel, pageToken: "target=BSP5-ChangesNotification")
         googleDriveService.executeQuery(query) { (ticket, nilFile, error) in
             onCompleted?(error)
         }
