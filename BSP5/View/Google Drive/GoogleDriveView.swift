@@ -19,7 +19,6 @@ struct GoogleDriveView: View {
     private let user = GIDSignIn.sharedInstance().currentUser
 
     var body: some View {
-        NavigationView {
             VStack {
                 HStack {
                     // Access profile picture, username, email address of the user’s Google account
@@ -82,9 +81,8 @@ struct GoogleDriveView: View {
             
             }
             .navigationTitle("Google Drive")
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
-        .navigationBarHidden(true)
+            .navigationBarTitleDisplayMode(.inline) // or .large
+            .navigationViewStyle(StackNavigationViewStyle())
         // Restore the SignIn state when the app was closed
         .onAppear {
             GIDSignIn.sharedInstance().restorePreviousSignIn()
