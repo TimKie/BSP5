@@ -15,6 +15,9 @@ class GoogleDriveViewModel: NSObject, ObservableObject {
     // var for making Google Drive API requests
     let googleDriveService = GTLRDriveService()
     var googleUser: GIDGoogleUser?
+    @Published var currentFolder: String = "root"
+    @Published var files: [GTLRDrive_File] = []
+    @Published var loading: Bool = false
     
 
   // define the sign-in and sign-out state for Google Sign-In
@@ -32,7 +35,19 @@ class GoogleDriveViewModel: NSObject, ObservableObject {
 
     setupGoogleSignIn()
   }
-
+    
+    func updateFiles() {
+        loading = true
+        self.listFiles(currentFolder) {(file_list, error) in
+            guard let l = file_list else {
+                return
+            }
+            //print("------- File List:", l.files!)
+        
+            self.files = l.files!
+            self.loading = false
+        }
+    }
   // SignIn method that shows the Google Sign-In screen as a model
   func signIn() {
     if GIDSignIn.sharedInstance().currentUser == nil {

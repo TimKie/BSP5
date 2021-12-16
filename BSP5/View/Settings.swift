@@ -124,6 +124,17 @@ struct Settings: View {
         }
         .navigationTitle("Settings")
         .padding(.horizontal)
+        .onChange(of: notification_all, perform: { _ in
+            if !notification_all {
+                notification_delete = false
+                notification_insert = false
+                notification_update = false
+            } else {
+                notification_delete = true
+                notification_insert = true
+                notification_update = true
+            }
+        })
     }
 }
 
