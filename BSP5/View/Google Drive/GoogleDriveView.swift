@@ -77,47 +77,8 @@ struct GoogleDriveView: View {
             
             
             if viewModel.state == .signedIn {
-                // ------------------------------------- File History -------------------------------------
-                // handle the case where the initial instance of this view is shown
                 HStack {
-                    Button("MyDrive"){
-                        viewModel.currentFolderID = "root"
-                        // remove all elements in the history as the root folder is the first folder (and not in the history array)
-                        file_history.removeAll()
-                        
-                    }
-                    .foregroundColor(dark_mode ? Color.white : Color.black)
-                    
-                    Image(systemName: "greaterthan")
-                    
-                    ForEach(file_history.indices, id: \.self) { index in
-                        Button(file_history[index].name ?? ""){
-                            // remove the correct number of files from the history such that the hisotry still corresponds to displayed file
-                            // if the user clicks on the file that is currently displayed, nothing will be removed from the history
-                            if index != file_history.count-1 {
-                                for _ in 1...file_history.count-index-1 {
-                                    file_history.removeLast()
-                                }
-                            }
-                            
-                            viewModel.currentFolderID = file_history[index].identifier!
-                            
-                        }
-                        .foregroundColor(dark_mode ? Color.white : Color.black)
-                        Image(systemName: "greaterthan")
-                    }
-                    
-                    Spacer()
-                }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color(.systemGray6))
-                .cornerRadius(15)
-                .padding(.horizontal)
-                
-                
-                // ------------------------------------- Back Button -------------------------------------
-                HStack {
+                    // ------------------------------------- Back Button -------------------------------------
                     Button {
                         if !file_history.isEmpty {
                             if file_history.count == 1 {
@@ -132,21 +93,55 @@ struct GoogleDriveView: View {
                         Label("Back", systemImage: "chevron.backward")
                     }
                     .padding()
-                    .frame(maxWidth: 100)
                     .background(Color(.secondarySystemBackground))
                     .cornerRadius(15)
-                    .padding(.horizontal)
+                    .padding(.leading)
                     
-                    Spacer()
+                    // ------------------------------------- File History -------------------------------------
+                    // handle the case where the initial instance of this view is shown
+                    HStack {
+                        Button("MyDrive"){
+                            viewModel.currentFolderID = "root"
+                            // remove all elements in the history as the root folder is the first folder (and not in the history array)
+                            file_history.removeAll()
+                            
+                        }
+                        .foregroundColor(dark_mode ? Color.white : Color.black)
+                        
+                        Image(systemName: "greaterthan")
+                        
+                        ForEach(file_history.indices, id: \.self) { index in
+                            Button(file_history[index].name ?? ""){
+                                // remove the correct number of files from the history such that the hisotry still corresponds to displayed file
+                                // if the user clicks on the file that is currently displayed, nothing will be removed from the history
+                                if index != file_history.count-1 {
+                                    for _ in 1...file_history.count-index-1 {
+                                        file_history.removeLast()
+                                    }
+                                }
+                                
+                                viewModel.currentFolderID = file_history[index].identifier!
+                                
+                            }
+                            .foregroundColor(dark_mode ? Color.white : Color.black)
+                            Image(systemName: "greaterthan")
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(15)
+                    .padding(.trailing)
                 }
-                
-                
             }
             
             if viewModel.state == .signedIn && viewModel.isLoaded {
                 // Calling the GoogleDriveFolderView() which handles the displaying of the folder/files
                 GoogleDriveFolderView(file_history: $file_history, currentFolderID: $viewModel.currentFolderID, files: $viewModel.files)
-            } else {
+            }
+            else if viewModel.state == .signedIn {
                 Spacer()
                 ProgressView("Retrieving Files")
             }
