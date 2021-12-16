@@ -20,9 +20,7 @@
 		22D5E0432759055600718E63 /* RenameFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D5E0422759055600718E63 /* RenameFileView.swift */; };
 		22E681002747F11E00C574F8 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E680FF2747F11E00C574F8 /* PreviewView.swift */; };
 		22F31DD4271D6BBD00B82A6D /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F31DD3271D6BBD00B82A6D /* Sidebar.swift */; };
-		22F31DD6271D6E6800B82A6D /* iCloudDriveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */; };
 		22F31DD8271D6E9300B82A6D /* GoogleDriveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F31DD7271D6E9300B82A6D /* GoogleDriveView.swift */; };
-		22F31DDA271D6E9F00B82A6D /* DropboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F31DD9271D6E9F00B82A6D /* DropboxView.swift */; };
 		22F31DDC271D982700B82A6D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F31DDB271D982700B82A6D /* Settings.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,9 +40,7 @@
 		22D5E0422759055600718E63 /* RenameFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameFileView.swift; sourceTree = "<group>"; };
 		22E680FF2747F11E00C574F8 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		22F31DD3271D6BBD00B82A6D /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
-		22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudDriveView.swift; sourceTree = "<group>"; };
 		22F31DD7271D6E9300B82A6D /* GoogleDriveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveView.swift; sourceTree = "<group>"; };
-		22F31DD9271D6E9F00B82A6D /* DropboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxView.swift; sourceTree = "<group>"; };
 		22F31DDB271D982700B82A6D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		22FB2BBE2721C536003AE5ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		463B3C6C7736ACC34580C86F /* Pods-BSP5.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BSP5.release.xcconfig"; path = "Target Support Files/Pods-BSP5/Pods-BSP5.release.xcconfig"; sourceTree = "<group>"; };
@@ -127,8 +123,6 @@
 				22F31DDB271D982700B82A6D /* Settings.swift */,
 				225E45F6271434B700BD1E88 /* ContentView.swift */,
 				22F31DD3271D6BBD00B82A6D /* Sidebar.swift */,
-				22F31DD5271D6E6800B82A6D /* iCloudDriveView.swift */,
-				22F31DD9271D6E9F00B82A6D /* DropboxView.swift */,
 				22B56DC4274F9C1100EA4C46 /* WebView.swift */,
 			);
 			path = View;
@@ -298,7 +292,6 @@
 			files = (
 				225E45F7271434B700BD1E88 /* ContentView.swift in Sources */,
 				22D5E0432759055600718E63 /* RenameFileView.swift in Sources */,
-				22F31DD6271D6E6800B82A6D /* iCloudDriveView.swift in Sources */,
 				22F31DD8271D6E9300B82A6D /* GoogleDriveView.swift in Sources */,
 				22F31DD4271D6BBD00B82A6D /* Sidebar.swift in Sources */,
 				22CA39282722B7A900E74FF3 /* GoogleDriveViewModel.swift in Sources */,
@@ -308,7 +301,6 @@
 				22E681002747F11E00C574F8 /* PreviewView.swift in Sources */,
 				22B56DC5274F9C1100EA4C46 /* WebView.swift in Sources */,
 				2287BC1227468FCE00866545 /* CreateFolderView.swift in Sources */,
-				22F31DDA271D6E9F00B82A6D /* DropboxView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

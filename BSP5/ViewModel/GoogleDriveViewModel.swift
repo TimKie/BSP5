@@ -16,6 +16,11 @@ class GoogleDriveViewModel: NSObject, ObservableObject {
     let googleDriveService = GTLRDriveService()
     var googleUser: GIDGoogleUser?
     
+    // var for Google Drive functions (@Published means that the view that use these variables will reloadif the variables change)
+    @Published var currentFolderID: String = "root"
+    @Published var files: [GTLRDrive_File] = []
+    @Published var isLoaded: Bool = false
+    
 
   // define the sign-in and sign-out state for Google Sign-In
   enum SignInState {
@@ -99,7 +104,6 @@ extension GoogleDriveViewModel: GIDSignInDelegate {
 
 // -------------------------------------------- Google Drive functions (queries) --------------------------------------------
 extension GoogleDriveViewModel {
-    
     // List files with folder ID
     public func listFiles(_ folderID: String, onCompleted: @escaping (GTLRDrive_FileList?, Error?) -> ()) {
         let query = GTLRDriveQuery_FilesList.query()
@@ -109,6 +113,21 @@ extension GoogleDriveViewModel {
             
         googleDriveService.executeQuery(query) { (ticket, result, error) in
             onCompleted(result as? GTLRDrive_FileList, error)
+        }
+    }
+    
+    // Update the files of the current folder
+    public func updateFiles() {
+        self.isLoaded = false
+        self.listFiles(currentFolderID) {(file_list, error) in
+            guard let l = file_list else {
+                return
+            }
+            //print("------- File List:", l.files!)
+        
+            self.files = l.files!
+            
+            self.isLoaded = true
         }
     }
     
@@ -123,15 +142,6 @@ extension GoogleDriveViewModel {
             
         googleDriveService.executeQuery(query)
     }
-    
-    /*
-    // Download a file using its id
-    public func download(_ fileID: String, onCompleted: @escaping (Data?, Error?) -> ()) {
-        let query = GTLRDriveQuery_FilesGet.queryForMedia(withFileId: fileID)
-        googleDriveService.executeQuery(query) { (ticket, file, error) in
-            onCompleted((file as? GTLRDataObject)?.data, error)
-        }
-    */
     
     // Delete a file using its id
     public func delete(_ fileID: String, onCompleted: ((Error?) -> ())?) {

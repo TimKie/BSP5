@@ -11,19 +11,11 @@ struct Sidebar: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: iCloudDriveView()) {
-                    Label("iCloud Drive", systemImage: "icloud")
-                }
-                
                 NavigationLink(destination: GoogleDriveView()) {
                     Image("google_drive_icon")
                         .resizable()
                         .frame(width: 30, height: 30)
                     Text("Google Drive")
-                }
-                
-                NavigationLink(destination: DropboxView()) {
-                    Label("Dropbox", systemImage: "internaldrive")
                 }
                 
                 Divider()
@@ -33,7 +25,7 @@ struct Sidebar: View {
                 }
             }
             .listStyle(SidebarListStyle())
-            .navigationTitle("Cloud Services")
+            .navigationTitle("Overview")
             
             // Default View (before selecting)
             GoogleDriveView()

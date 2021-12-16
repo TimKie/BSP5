@@ -69,46 +69,49 @@ struct Settings: View {
                     
                     HStack {
                         Spacer()
-                        // Sign In button for Google Drive
-                        Button {
-                            viewModel.signIn()
-                        } label: {
-                            HStack {
-                                Image("google_icon")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                Text("Sign In")
-                                    .foregroundColor(dark_mode ? Color.white : Color.black)
+                        
+                        if viewModel.state == .signedOut {
+                            // Sign In button for Google Drive
+                            Button {
+                                viewModel.signIn()
+                            } label: {
+                                HStack {
+                                    Image("google_icon")
+                                        .resizable()
+                                        .frame(width: 30, height: 30)
+                                    Text("Sign In")
+                                        .foregroundColor(dark_mode ? Color.white : Color.black)
+                                }
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 20)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(.gray, lineWidth: 1)
+                                    
+                                ).background(RoundedRectangle(cornerRadius: 10).fill(dark_mode ? Color.black.opacity(0.1) : Color.white.opacity(0.8)))
                             }
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 20)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(.gray, lineWidth: 1)
-                                
-                            ).background(RoundedRectangle(cornerRadius: 10).fill(dark_mode ? Color.black.opacity(0.1) : Color.white.opacity(0.8)))
                         }
-                    
-                        Spacer()
             
-                        // Sign Out Button for Google Srive
-                        Button {
-                            viewModel.signOut()
-                        } label: {
-                            HStack {
-                                Image("google_icon")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                Text("Sign Out")
-                                    .foregroundColor(dark_mode ? Color.white : Color.black)
+                        else if viewModel.state == .signedIn {
+                            // Sign Out Button for Google Srive
+                            Button {
+                                viewModel.signOut()
+                            } label: {
+                                HStack {
+                                    Image("google_icon")
+                                        .resizable()
+                                        .frame(width: 30, height: 30)
+                                    Text("Sign Out")
+                                        .foregroundColor(dark_mode ? Color.white : Color.black)
+                                }
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 20)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(.gray, lineWidth: 1)
+                                )
+                                .background(RoundedRectangle(cornerRadius: 10).fill(dark_mode ? Color.black.opacity(0.1) : Color.white.opacity(0.8)))
                             }
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 20)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(.gray, lineWidth: 1)
-                            )
-                            .background(RoundedRectangle(cornerRadius: 10).fill(dark_mode ? Color.black.opacity(0.1) : Color.white.opacity(0.8)))
                         }
                         
                         Spacer()
