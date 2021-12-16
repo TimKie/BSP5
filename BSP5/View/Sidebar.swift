@@ -25,7 +25,7 @@ struct Sidebar: View {
                 }
             }
             .listStyle(SidebarListStyle())
-            .navigationTitle("Overview")
+            .navigationTitle("General")
             
             // Default View (before selecting)
             GoogleDriveView()

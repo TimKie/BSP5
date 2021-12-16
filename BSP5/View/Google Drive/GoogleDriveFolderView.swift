@@ -120,6 +120,10 @@ struct GoogleDriveFolderView: View {
             }
             .cornerRadius(15)
             .padding(.horizontal)
+            // refresh List when pulling down
+            .refreshable {
+                viewModel.updateFiles(enableProgressView: false)
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     // ------------------------------------- Folder Creation Sheet -------------------------------------
@@ -148,7 +152,7 @@ struct GoogleDriveFolderView: View {
             // Showing sheet to create a folder
             .sheet(item: $createFolder_parentID, onDismiss: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    viewModel.updateFiles()
+                    viewModel.updateFiles(enableProgressView: true)
                 }
             }, content: { item in
                 CreateFolderView(parent: createFolder_parentID!)
@@ -156,7 +160,7 @@ struct GoogleDriveFolderView: View {
             // Showing sheet to rename a file
             .sheet(item: $index_of_rename_file, onDismiss: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    viewModel.updateFiles()
+                    viewModel.updateFiles(enableProgressView: true)
                 }
             }, content: { item in
                 RenameFileView(file: files[item])

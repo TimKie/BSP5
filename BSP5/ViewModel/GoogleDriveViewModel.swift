@@ -117,13 +117,15 @@ extension GoogleDriveViewModel {
     }
     
     // Update the files of the current folder
-    public func updateFiles() {
-        self.isLoaded = false
+    public func updateFiles(enableProgressView: Bool) {
+        if enableProgressView {
+            self.isLoaded = false
+        }
         self.listFiles(currentFolderID) {(file_list, error) in
             guard let l = file_list else {
                 return
             }
-            //print("------- File List:", l.files!)
+            print("------- File List:", l.files!)
         
             self.files = l.files!
             

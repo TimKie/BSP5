@@ -75,8 +75,9 @@ struct GoogleDriveView: View {
                 .padding(.horizontal)
             }
             
-            // ------------------------------------- File History -------------------------------------
+            
             if viewModel.state == .signedIn {
+                // ------------------------------------- File History -------------------------------------
                 // handle the case where the initial instance of this view is shown
                 HStack {
                     Button("MyDrive"){
@@ -113,6 +114,33 @@ struct GoogleDriveView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(15)
                 .padding(.horizontal)
+                
+                
+                // ------------------------------------- Back Button -------------------------------------
+                HStack {
+                    Button {
+                        if !file_history.isEmpty {
+                            if file_history.count == 1 {
+                                viewModel.currentFolderID = "root"
+                            }
+                            else {
+                                viewModel.currentFolderID = file_history[file_history.count-2].identifier!
+                            }
+                            file_history.removeLast()
+                        }
+                    } label: {
+                        Label("Back", systemImage: "chevron.backward")
+                    }
+                    .padding()
+                    .frame(maxWidth: 100)
+                    .background(Color(.secondarySystemBackground))
+                    .cornerRadius(15)
+                    .padding(.horizontal)
+                    
+                    Spacer()
+                }
+                
+                
             }
             
             if viewModel.state == .signedIn && viewModel.isLoaded {
@@ -124,7 +152,7 @@ struct GoogleDriveView: View {
             }
             
             Spacer()
-        
+            
         }
         .navigationTitle("Google Drive")
         .navigationBarTitleDisplayMode(.inline)
@@ -134,7 +162,7 @@ struct GoogleDriveView: View {
             GIDSignIn.sharedInstance().restorePreviousSignIn()
             
             // Update the files that are shown
-            viewModel.updateFiles()
+            viewModel.updateFiles(enableProgressView: true)
             
             // Calling the function to create a notification channel
             viewModel.watchChanges { error in
@@ -146,7 +174,7 @@ struct GoogleDriveView: View {
         }
         .onChange(of: viewModel.currentFolderID) { _ in
             // Update the files that are shown if the folder that is shown changes
-            viewModel.updateFiles()
+            viewModel.updateFiles(enableProgressView: true)
         }
     }
 }
