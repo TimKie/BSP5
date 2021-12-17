@@ -16,6 +16,7 @@ struct GoogleDriveView: View {
     @EnvironmentObject var viewModel: GoogleDriveViewModel
     
     @State var file_history: [GTLRDrive_File] = []
+    @State var showBackButton: Bool = false
     
     @AppStorage("dark_mode") private var dark_mode = false
 
@@ -79,23 +80,27 @@ struct GoogleDriveView: View {
             if viewModel.state == .signedIn {
                 HStack {
                     // ------------------------------------- Back Button -------------------------------------
-                    Button {
-                        if !file_history.isEmpty {
-                            if file_history.count == 1 {
-                                viewModel.currentFolderID = "root"
+                    if showBackButton {
+                        Button {
+                            if !file_history.isEmpty {
+                                if file_history.count == 1 {
+                                    viewModel.currentFolderID = "root"
+                                }
+                                else {
+                                    viewModel.currentFolderID = file_history[file_history.count-2].identifier!
+                                }
+                                file_history.removeLast()
                             }
-                            else {
-                                viewModel.currentFolderID = file_history[file_history.count-2].identifier!
-                            }
-                            file_history.removeLast()
+                        } label: {
+                            Label("Back", systemImage: "chevron.backward")
                         }
-                    } label: {
-                        Label("Back", systemImage: "chevron.backward")
+                        .padding()
+                        .background(Color(.secondarySystemBackground))
+                        .cornerRadius(15)
+                        .padding(.leading)
+                        .transition(.scale)
+                        
                     }
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(15)
-                    .padding(.leading)
                     
                     // ------------------------------------- File History -------------------------------------
                     // handle the case where the initial instance of this view is shown
@@ -133,7 +138,7 @@ struct GoogleDriveView: View {
                     .frame(maxWidth: .infinity)
                     .background(Color(.systemGray6))
                     .cornerRadius(15)
-                    .padding(.trailing)
+                    .padding(viewModel.currentFolderID == "root" ? .horizontal : .trailing)
                 }
             }
             
@@ -170,6 +175,17 @@ struct GoogleDriveView: View {
         .onChange(of: viewModel.currentFolderID) { _ in
             // Update the files that are shown if the folder that is shown changes
             viewModel.updateFiles(enableProgressView: true)
+            
+            // do not show back button in the root folder
+            if viewModel.currentFolderID == "root" {
+                withAnimation {
+                    showBackButton = false
+                }
+            } else {
+                withAnimation {
+                    showBackButton = true
+                }
+            }
         }
     }
 }

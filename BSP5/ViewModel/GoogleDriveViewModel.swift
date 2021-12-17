@@ -125,7 +125,7 @@ extension GoogleDriveViewModel {
             guard let l = file_list else {
                 return
             }
-            print("------- File List:", l.files!)
+            //print("------- File List:", l.files!)
         
             self.files = l.files!
             
