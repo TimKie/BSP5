@@ -20,7 +20,7 @@ struct Settings: View {
     
     var body: some View {
         VStack {
-            /*
+            /* ------------------ Manage Notifications in Settings ------------------
             VStack(alignment: .leading) {
                 Section(
                     header:
