@@ -164,6 +164,7 @@ struct GoogleDriveView: View {
             // Update the files that are shown
             viewModel.updateFiles(enableProgressView: true)
             
+            /* ----------------- Google Drive Push Notifications -----------------
             // Calling the function to create a notification channel
             viewModel.watchChanges { error in
                 guard let error = error else {
@@ -171,6 +172,7 @@ struct GoogleDriveView: View {
                 }
                 print("Error when watching file changes: \(error)")
             }
+            */
         }
         .onChange(of: viewModel.currentFolderID) { _ in
             // Update the files that are shown if the folder that is shown changes

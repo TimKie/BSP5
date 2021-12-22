@@ -165,6 +165,7 @@ extension GoogleDriveViewModel {
         }
     }
     
+    /* ----------------- Google Drive Push Notifications -----------------
     // Watch files/folder to enable Push Notifications
     public func watchChanges(onCompleted: ((Error?) -> ())?) {
         let uuid = UUID().uuidString
@@ -178,4 +179,5 @@ extension GoogleDriveViewModel {
             onCompleted?(error)
         }
     }
+    */
 }

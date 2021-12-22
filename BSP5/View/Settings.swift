@@ -20,6 +20,7 @@ struct Settings: View {
     
     var body: some View {
         VStack {
+            /*
             VStack(alignment: .leading) {
                 Section(
                     header:
@@ -48,6 +49,7 @@ struct Settings: View {
             .background(Color(.systemGray6))
             .cornerRadius(15)
             .padding(.vertical, 5)
+            */
             
             VStack(alignment: .leading) {
                 Section(header: Text("Appearance").font(.title).fontWeight(.bold).multilineTextAlignment(.leading).padding(.vertical)) {
